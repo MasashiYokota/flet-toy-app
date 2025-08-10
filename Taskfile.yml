@@ -1,0 +1,5 @@
+version: "3"
+
+tasks:
+  gen_requirements:
+    cmd: uv pip compile pyproject.toml > requirements.txt
