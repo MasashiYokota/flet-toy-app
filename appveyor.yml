@@ -13,7 +13,8 @@ install:
 - pip install -r requirements.txt
 
 build_script:
-- flet pack src/main.py --name pochi-mat --icon icon.png --product-name pochi-mat --product-version "1.2.3" --copyright "Copyright (c) 2022"
+- flet pack src/main.py --name pochi-mat --product-name pochi-mat --product-version "0.0.1"
+# - flet pack src/main.py --name pochi-mat --icon icon.png --product-name pochi-mat --product-version "1.2.3" --copyright "Copyright (c) 2022"
 
 test: off
 
