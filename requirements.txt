@@ -5,14 +5,10 @@ altgraph==0.17.4
 annotated-types==0.7.0
     # via pydantic
 anyio==4.10.0
-    # via httpx
-blis==0.7.11
     # via thinc
 catalogue==2.0.10
     # via
     #   spacy
-    #   srsly
-    #   thinc
 certifi==2025.8.3
     # via
     #   httpcore
@@ -26,13 +22,11 @@ cloudpathlib==0.16.0
     # via weasel
 confection==0.1.5
     # via
-    #   thinc
     #   weasel
 cymem==2.0.11
     # via
     #   preshed
     #   spacy
-    #   thinc
 flet==0.28.3
     # via flet-toy-app (pyproject.toml)
 ginza==5.2.0
@@ -66,12 +60,10 @@ murmurhash==1.0.13
     # via
     #   preshed
     #   spacy
-    #   thinc
 numpy==1.26.4
     # via
     #   blis
     #   spacy
-    #   thinc
 oauthlib==3.3.1
     # via flet
 packaging==25.0
@@ -79,19 +71,16 @@ packaging==25.0
     #   pyinstaller
     #   pyinstaller-hooks-contrib
     #   spacy
-    #   thinc
     #   weasel
 plac==1.4.5
     # via ginza
 preshed==3.0.10
     # via
     #   spacy
-    #   thinc
 pydantic==2.11.7
     # via
     #   confection
     #   spacy
-    #   thinc
     #   weasel
 pydantic-core==2.33.2
     # via pydantic
@@ -111,7 +100,6 @@ setuptools==80.9.0
     #   pyinstaller
     #   pyinstaller-hooks-contrib
     #   spacy
-    #   thinc
 six==1.17.0
     # via repath
 smart-open==6.4.0
@@ -128,23 +116,15 @@ spacy==3.7.2
 spacy-legacy==3.0.12
     # via spacy
 spacy-loggers==1.0.5
-    # via spacy
-srsly==2.5.1
     # via
     #   confection
     #   spacy
-    #   thinc
     #   weasel
 sudachidict-core==20250515
     # via
     #   ginza
     #   ja-ginza
 sudachipy==0.6.10
-    # via
-    #   ginza
-    #   ja-ginza
-    #   sudachidict-core
-thinc==8.2.5
     # via spacy
 tqdm==4.67.1
     # via spacy
