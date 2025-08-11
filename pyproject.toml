@@ -12,7 +12,7 @@ dependencies = [
   "ginza>=5.2.0",
   "ja-ginza>=5.2.0",
   "pyinstaller>=6.15.0",
-  "spacy>=3.8.7",
+  "spacy==3.7.2",
 ]
 
 [tool.flet]
