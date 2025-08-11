@@ -12,7 +12,6 @@ catalogue==2.0.10
 certifi==2025.8.3
     # via
     #   httpcore
-    #   httpx
     #   requests
 charset-normalizer==3.4.3
     # via requests
@@ -36,13 +35,10 @@ ginza==5.2.0
 h11==0.16.0
     # via httpcore
 httpcore==1.0.9
-    # via httpx
-httpx==0.28.1
     # via flet
 idna==3.10
     # via
     #   anyio
-    #   httpx
     #   requests
 ja-ginza==5.2.0
     # via flet-toy-app (pyproject.toml)
