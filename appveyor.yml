@@ -11,7 +11,11 @@ environment:
 
 install:
 - python --version
+- echo "thinc==8.3.3" >> spacy.txt
+- echo "blis==1.1.0" >> spacy.txt
+- head spacy.txt
 - pip install -U setuptools wheel
+- PIP_CONSTRAINT=spacy.txt pip install spacy==3.8.2
 - pip install -r requirements.txt
 
 build_script:
