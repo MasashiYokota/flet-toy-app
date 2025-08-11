@@ -24,7 +24,6 @@ confection==0.1.5
     #   weasel
 cymem==2.0.11
     # via
-    #   preshed
     #   spacy
 flet==0.28.3
     # via flet-toy-app (pyproject.toml)
@@ -54,7 +53,6 @@ markupsafe==3.0.2
     # via jinja2
 murmurhash==1.0.13
     # via
-    #   preshed
     #   spacy
 numpy==2.3.2
     # via
@@ -69,8 +67,6 @@ packaging==25.0
     #   spacy
     #   weasel
 plac==1.4.5
-    # via ginza
-preshed==3.0.10
     # via
     #   spacy
 pydantic==2.11.7
