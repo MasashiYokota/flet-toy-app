@@ -13,8 +13,8 @@ environment:
     secure: VjOQklE3JTnCsB0zT8gIgfOaYFVN9s+jXeWQzAXJbtLfQn6HGBl5zOoq3dbyn0qP4wDZwC0OhWlQgGznj0EoQEJ5s17i8GxV7Lhq9PqSv2uFGsOijbJXSd6sJRPubaoq
 
 install:
+- pip install --upgrade pip
 - pip install -U setuptools wheel
-- pip install uv
 
 build_script:
 - flet pack src/main.py --name pochi-mat --product-name pochi-mat --product-version "0.0.1"
@@ -39,13 +39,9 @@ for:
     - image: Visual Studio 2022
 
   before_build:
-    - appveyor DownloadFile https://win.rustup.rs/ -FileName rustup-init.exe
-    - rustup-init -yv --default-toolchain %channel% --default-host %target%
-    - set PATH=%PATH%;%USERPROFILE%\.cargo\bin
     - call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars32.bat"
     - call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
-    - uv sync
-    - call ".\.venv\bin\activate.bat"
+    - pip install -r requirements.txt
 
   after_build:
   - 7z a pochi-mat-windows.zip %CD%\dist\*.exe
@@ -62,8 +58,7 @@ for:
     - image: macOS
 
   before_build:
-    - uv sync
-    - source ./.venv/bin/activate
+    - pip install -r requirements.txt
 
   after_build:
   - tar -czvf pochi-mat-macos.tar.gz -C dist pochi-mat.app
