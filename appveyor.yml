@@ -5,6 +5,9 @@ image:
 skip_branch_with_pr: true
 stack: python 3.12
 
+platform:
+  - x64
+
 environment:
   GITHUB_TOKEN:
     secure: VjOQklE3JTnCsB0zT8gIgfOaYFVN9s+jXeWQzAXJbtLfQn6HGBl5zOoq3dbyn0qP4wDZwC0OhWlQgGznj0EoQEJ5s17i8GxV7Lhq9PqSv2uFGsOijbJXSd6sJRPubaoq

@@ -8,12 +8,12 @@ authors = [
     { name = "Flet developer", email = "you@example.com" }
 ]
 dependencies = [
-  "flet==0.28.3",
+  "flet==0.28.2",
   "ginza>=5.2.0",
   "ja-ginza>=5.2.0",
   "numpy>=2.0.2",
   "pyinstaller>=6.15.0",
-  "spacy==3.7.5",
+  "spacy==3.8.2",
 ]
 
 [tool.flet]
@@ -31,10 +31,13 @@ company = "Flet"
 # copyright text to display in about app dialogs
 copyright = "Copyright (C) 2025 by Flet"
 
+[tool.flet.macos]
+entitlement."com.apple.security.files.user-selected.read-write" = true
+
 [tool.flet.app]
 path = "src"
 
 [tool.uv]
 dev-dependencies = [
-    "flet[all]==0.28.3",
+    "flet[all]==0.28.2",
 ]
