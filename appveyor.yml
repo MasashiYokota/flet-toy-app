@@ -41,7 +41,7 @@ for:
   before_build:
     - call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars32.bat"
     - call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
-    - pip install -r requirements.txt
+    - pip install --only-binary=:all: -r requirements.txt
 
   after_build:
   - 7z a pochi-mat-windows.zip %CD%\dist\*.exe
