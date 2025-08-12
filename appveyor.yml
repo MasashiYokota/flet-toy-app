@@ -14,7 +14,7 @@ environment:
 
 install:
 - pip install -U setuptools wheel
-- pip install -g uv
+- pip install uv
 
 build_script:
 - flet pack src/main.py --name pochi-mat --product-name pochi-mat --product-version "0.0.1"
