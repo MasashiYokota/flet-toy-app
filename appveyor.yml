@@ -6,7 +6,7 @@ skip_branch_with_pr: true
 stack: python 3.12
 
 platform:
-  - x64
+  - x86
 
 environment:
   GITHUB_TOKEN:
