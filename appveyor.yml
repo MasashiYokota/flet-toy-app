@@ -39,9 +39,13 @@ for:
     - image: Visual Studio 2022
 
   before_build:
+    - ps: Invoke-WebRequest -Uri https://win.rustup.rs -OutFile rustup-init.exe
+    - rustup-init.exe -y --no-modify-path --default-toolchain %CHANNEL%
+    - set PATH=%PATH%;%USERPROFILE%\.cargo\bin
     - call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars32.bat"
     - call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
     - uv sync
+    - call ".\.venv\bin\activate.bat"
 
   after_build:
   - 7z a pochi-mat-windows.zip %CD%\dist\*.exe
@@ -59,6 +63,7 @@ for:
 
   before_build:
     - uv sync
+    - source ./.venv/bin/activate
 
   after_build:
   - tar -czvf pochi-mat-macos.tar.gz -C dist pochi-mat.app
