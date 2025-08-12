@@ -14,6 +14,7 @@ environment:
 
 install:
 - pip install -U setuptools wheel
+- pip install -g uv
 
 build_script:
 - flet pack src/main.py --name pochi-mat --product-name pochi-mat --product-version "0.0.1"
@@ -40,7 +41,7 @@ for:
   before_build:
     - call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars32.bat"
     - call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
-    - pip install -r requirements.txt
+    - uv sync
 
   after_build:
   - 7z a pochi-mat-windows.zip %CD%\dist\*.exe
@@ -57,7 +58,7 @@ for:
     - image: macOS
 
   before_build:
-    - pip install -r requirements.txt
+    - uv sync
 
   after_build:
   - tar -czvf pochi-mat-macos.tar.gz -C dist pochi-mat.app
