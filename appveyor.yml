@@ -13,7 +13,6 @@ environment:
     secure: VjOQklE3JTnCsB0zT8gIgfOaYFVN9s+jXeWQzAXJbtLfQn6HGBl5zOoq3dbyn0qP4wDZwC0OhWlQgGznj0EoQEJ5s17i8GxV7Lhq9PqSv2uFGsOijbJXSd6sJRPubaoq
 
 install:
-- pip install --upgrade pip
 - pip install -U setuptools wheel
 
 build_script:
