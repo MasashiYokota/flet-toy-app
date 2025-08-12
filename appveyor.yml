@@ -39,8 +39,8 @@ for:
     - image: Visual Studio 2022
 
   before_build:
-    - ps: Invoke-WebRequest -Uri https://win.rustup.rs -OutFile rustup-init.exe
-    - rustup-init.exe -y --no-modify-path --default-toolchain %CHANNEL%
+    - appveyor DownloadFile https://win.rustup.rs/ -FileName rustup-init.exe
+    - rustup-init -yv --default-toolchain %channel% --default-host %target%
     - set PATH=%PATH%;%USERPROFILE%\.cargo\bin
     - call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars32.bat"
     - call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
