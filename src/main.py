@@ -5,6 +5,7 @@ import time
 
 import flet as ft
 import spacy
+from chardet.universaldetector import UniversalDetector
 
 nlp = spacy.load("ja_ginza")  # GiNZAモデルの読み込み
 katakana_regex = r"[ァ-ンー]+"
@@ -38,7 +39,8 @@ def mask_text(text: str):
 
 
 def main(page: ft.Page):
-    page.title = "pochi-mas"
+    page.title = "ぽっちゃま ~ ぽちぽち マスキングツール ~"
+    page.window.height = 800
 
     # Status text to show upload/download status
     status_text = ft.Text("CSVファイルをアップロードしてください", size=16)
@@ -51,17 +53,18 @@ def main(page: ft.Page):
     column_selection_container = ft.Container(visible=False)
     selected_columns = []
     uploaded_file_path = ""
+    uploaded_file_encoding = "utf-8"
 
     # Process the file with selected columns
     def process_file_with_columns():
-        nonlocal uploaded_file_path
+        nonlocal uploaded_file_path, uploaded_file_encoding
 
         try:
             # First, count total lines for progress tracking
             status_text.value = "ファイルの行数を確認中..."
             status_text.update()
 
-            with open(uploaded_file_path, encoding="utf-8") as input_file:
+            with open(uploaded_file_path, encoding=uploaded_file_encoding) as input_file:
                 csv_reader = csv.reader(input_file)
                 headers = next(csv_reader)
                 total_lines = sum(1 for _ in csv_reader)
@@ -101,7 +104,7 @@ def main(page: ft.Page):
                 output_filename = unique_filename
 
             with (
-                open(uploaded_file_path, encoding="utf-8") as input_file,
+                open(uploaded_file_path, encoding=uploaded_file_encoding) as input_file,
                 open(output_path, "w", encoding="utf-8") as output_file,
             ):
                 # Use DictReader to read CSV with column names
@@ -183,7 +186,7 @@ def main(page: ft.Page):
             status_text.update()
             return
 
-        nonlocal uploaded_file_path, selected_columns
+        nonlocal uploaded_file_path, uploaded_file_encoding, selected_columns
         selected_columns = []
 
         # Get the first selected file
@@ -191,8 +194,17 @@ def main(page: ft.Page):
         uploaded_file_path = uploaded_file.path
 
         try:
+            with open(uploaded_file_path, "rb") as input_file:
+                detector = UniversalDetector()
+                for line in input_file:
+                    detector.feed(line)
+                    if detector.done:
+                        break
+                detector.close()
+                uploaded_file_encoding = detector.result["encoding"]
+
             # Read the CSV header to get column names
-            with open(uploaded_file_path, encoding="utf-8") as input_file:
+            with open(uploaded_file_path, encoding=uploaded_file_encoding) as input_file:
                 header = input_file.readline().strip()
                 columns = header.split(",")
 
@@ -219,20 +231,45 @@ def main(page: ft.Page):
                 "選択したカラムをマスキングする", on_click=lambda _: process_file_with_columns()
             )
 
+            # Group checkboxes into rows of row_item_num
+            row_item_num = min(5, len(column_checkboxes))
+            checkbox_rows = []
+            for i in range(0, len(column_checkboxes), row_item_num):
+                cells = [
+                    ft.DataCell(checkbox) for checkbox in column_checkboxes[i : i + row_item_num]
+                ]
+                if len(cells) < row_item_num:
+                    # Fill the remaining cells with empty DataCells
+                    cells += [ft.DataCell(ft.Text(""))] * (row_item_num - len(cells))
+                checkbox_row = ft.DataRow(cells)
+                checkbox_rows.append(checkbox_row)
+
+            dt = ft.DataTable(
+                rows=checkbox_rows,
+                columns=[ft.DataColumn(ft.Text(f"{i + 1}列目")) for i in range(row_item_num)],
+            )
+            listview = ft.ListView([dt], expand=1, spacing=10, padding=20)
+
             # Update the column selection container
             column_selection_container.content = ft.Column(
-                [
+                controls=[
                     ft.Text(
                         "マスキングするカラムを選択してください:",
                         size=16,
                         weight=ft.FontWeight.BOLD,
                     ),
                     ft.Divider(),
-                    ft.Column(column_checkboxes, scroll=ft.ScrollMode.AUTO, height=200),
+                    ft.Container(
+                        content=listview,
+                        border=ft.border.all(1),
+                        height=300,
+                        width=1100,
+                    ),
                     process_button,
                 ],
                 spacing=10,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                scroll=True,
             )
 
             column_selection_container.visible = True
@@ -261,12 +298,17 @@ def main(page: ft.Page):
                 ft.Column(
                     [
                         ft.Text(
-                            "ぽちぽち マスキングツール",
+                            "ぽっちゃま",
                             size=30,
                             weight=ft.FontWeight.BOLD,
                         ),
                         ft.Text(
-                            "CSVをアップロードして特定のカラムの人名をマスキングします",
+                            "~ ぽちぽち マスキングツール ~",
+                            size=20,
+                            weight=ft.FontWeight.BOLD,
+                        ),
+                        ft.Text(
+                            "CSVをアップロードしてカラムを指定してください。対象カラムの人名、メールアドレス、電話番号をマスキングします",
                         ),
                         ft.Divider(),
                         status_text,

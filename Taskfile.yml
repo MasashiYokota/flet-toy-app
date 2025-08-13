@@ -11,7 +11,7 @@ tasks:
     cmd: uv run pyinstaller pochi-mas[mac].spec
 
   full_win_build:
-    cmd: uv run pyinstaller src/main.py --onedir --collect-all "ja_ginza" --collect-all "ginza" --collect-all "spacy" --collect-all "spacy_legacy" --add-data "src/assets/pochi-mat.ico:." -i=pochi-mat.ico --name=pochi-mas[win]
+    cmd: uv run pyinstaller .\src\main.py --onedir --collect-all "ja_ginza"  --collect-all "ginza" --collect-all "spacy"  --collect-all "spacy_legacy" --hidden-import "ja_ginza" --hidden-import "ginza" --name pochi-mat[win] --add-data "src/assets/pochi-mat.ico:." -i src/assets/pochi-mat.ico
 
   win_build:
     cmd: uv run pyinstaller pochi-mas[win].spec
