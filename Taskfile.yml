@@ -5,10 +5,16 @@ tasks:
     cmd: uv pip compile pyproject.toml > requirements.txt
 
   full_mac_build:
-    cmd: uv run pyinstaller src/main.py --onedir --collect-all "ja_ginza" --collect-all "ginza" --collect-all "spacy" --collect-all "spacy_legacy" --add-data "src/assets/pochi-mat.icns:." -i=pochi-mat.icns --name=pochi-mat-mac
+    cmd: uv run pyinstaller src/main.py --onedir --collect-all "ja_ginza" --collect-all "ginza" --collect-all "spacy" --collect-all "spacy_legacy" --add-data "src/assets/pochi-mat.icns:." -i=pochi-mat.icns --name=pochi-mas[mac]
 
   mac_build:
-    cmd: uv run pyinstaller pochi-mat-mac.spec
+    cmd: uv run pyinstaller pochi-mas[mac].spec
+
+  full_win_build:
+    cmd: uv run pyinstaller src/main.py --onedir --collect-all "ja_ginza" --collect-all "ginza" --collect-all "spacy" --collect-all "spacy_legacy" --add-data "src/assets/pochi-mat.ico:." -i=pochi-mat.ico --name=pochi-mas[win]
+
+  win_build:
+    cmd: uv run pyinstaller pochi-mas[win].spec
 
   check:all:
     - task: ruff

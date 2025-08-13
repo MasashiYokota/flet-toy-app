@@ -38,7 +38,7 @@ def mask_text(text: str):
 
 
 def main(page: ft.Page):
-    page.title = "pochi mat"
+    page.title = "pochi-mas"
 
     # Status text to show upload/download status
     status_text = ft.Text("CSVファイルをアップロードしてください", size=16)
