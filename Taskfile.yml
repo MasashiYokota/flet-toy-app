@@ -9,3 +9,17 @@ tasks:
 
   mac_build:
     cmd: uv run pyinstaller pochi-mat-mac.spec
+
+  check:all:
+    - task: ruff
+    - task: pyright
+    - task: test
+
+  test:
+    cmd: uv run pytest
+
+  pyright:
+    cmd: uv run pyright
+
+  ruff:
+    cmd: uv run ruff check .

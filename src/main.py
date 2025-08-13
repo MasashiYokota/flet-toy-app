@@ -1,10 +1,16 @@
-import flet as ft
-import spacy
 import os
+import re
 import time
 
+import flet as ft
+import spacy
 
 nlp = spacy.load("ja_ginza")  # GiNZAモデルの読み込み
+katakana_regex = r"[ァ-ンー]+"
+email_regex = r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}"
+phone_regex = (
+    r"[\(]{0,1}[0-9０-９]{2,4}[\)\(-|ー)\(]{0,1}[0-9０-９]{2,4}[\)(-|ー)]{0,1}[0-9０-９]{3,4}"
+)
 
 
 def mask_text(text: str):
@@ -13,10 +19,19 @@ def mask_text(text: str):
     for sent in doc.sents:
         masked_text += "".join(
             [
-                "○○" if token.tag_.startswith("名詞-固有名詞-人名") else token.text
+                "[name]"
+                if token.tag_.startswith("名詞-固有名詞-人名")
+                and not re.search(
+                    katakana_regex, token.text
+                )  # パーカーは人命にもなりうるが服のパーカーとも被るのでカタカナ名は無視する
+                else token.text
                 for token in sent
             ]
         )
+
+    masked_text = re.sub(email_regex, "[masked email]", masked_text)
+
+    masked_text = re.sub(phone_regex, "[masked phone number]", masked_text)
 
     return masked_text
 
@@ -43,7 +58,7 @@ def main(page: ft.Page):
                 status_text.value = "ファイルの行数を確認中..."
                 status_text.update()
 
-                with open(uploaded_file.path, "r", encoding="utf-8") as input_file:
+                with open(uploaded_file.path, encoding="utf-8") as input_file:
                     total_lines = sum(1 for _ in input_file)
 
                 # Show progress bar and initialize
@@ -79,7 +94,7 @@ def main(page: ft.Page):
                 if is_updated:
                     output_filename = unique_filename
 
-                with open(uploaded_file.path, "r", encoding="utf-8") as input_file:
+                with open(uploaded_file.path, encoding="utf-8") as input_file:
                     with open(output_path, "w", encoding="utf-8") as output_file:
                         for line_number, line in enumerate(input_file, 1):
                             # Update progress bar
@@ -93,9 +108,7 @@ def main(page: ft.Page):
                                 elapsed_time = time.time() - start_time
                                 avg_time_per_line = elapsed_time / (line_number - 1)
                                 remaining_lines = total_lines - line_number + 1
-                                estimated_remaining_time = (
-                                    avg_time_per_line * remaining_lines
-                                )
+                                estimated_remaining_time = avg_time_per_line * remaining_lines
 
                                 # Format time display
                                 if estimated_remaining_time > 60:
@@ -105,9 +118,7 @@ def main(page: ft.Page):
 
                                 status_text.value = f"処理中... {line_number}/{total_lines} 行目 (残り約{time_display})"
                             else:
-                                status_text.value = (
-                                    f"処理中... {line_number}/{total_lines} 行目"
-                                )
+                                status_text.value = f"処理中... {line_number}/{total_lines} 行目"
 
                             # Update UI every 10 lines or on the last line for better performance
                             if line_number % 10 == 0 or line_number == total_lines:
@@ -143,9 +154,7 @@ def main(page: ft.Page):
     upload_button = ft.ElevatedButton(
         "CSVファイルをアップロード",
         icon=ft.Icons.UPLOAD_FILE,
-        on_click=lambda _: file_picker.pick_files(
-            allow_multiple=False, allowed_extensions=["csv"]
-        ),
+        on_click=lambda _: file_picker.pick_files(allow_multiple=False, allowed_extensions=["csv"]),
     )
 
     page.add(
@@ -178,4 +187,5 @@ def main(page: ft.Page):
     )
 
 
-ft.app(main)
+if __name__ == "__main__":
+    ft.app(main)

@@ -1,3 +1,42 @@
+[tool.pyright]
+include = ["src", "tests"]
+exclude = ["**/__pycache__"]
+typeCheckingMode="basic"
+pythonVersion="3.13"
+extraPaths=["src"]
+#
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint]
+select = [
+  "FAST", # FastAPI checks
+  "E",    # pycodestyle
+  "W",    # pycodestyle
+  "F",    # Pyflakes
+  "I",    # isort
+  "B",    # flake8-bugbear
+  "C4",   # flake8-comprehensions
+  "N",    # pep8-naming
+  "UP"    # pyupgrade
+]
+ignore = [
+    "E501", # line too long, handled by black
+    "B008", # do not perform function calls in argument defaults
+    "C901", # too complex
+    "W191", # indentation contains tabs,
+    "N802", # function name should be lowercase
+]
+unfixable = [
+    "F841", # unused variable
+]
+
+[tool.ruff.lint.pylint]
+max-args = 6
+
 [project]
 name = "flet-toy-app"
 version = "0.1.0"
@@ -40,4 +79,7 @@ path = "src"
 [tool.uv]
 dev-dependencies = [
     "flet[all]==0.28.2",
+    "pyright>=1.1.403",
+    "pytest>=8.4.1",
+    "ruff>=0.12.8",
 ]
