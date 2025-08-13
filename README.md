@@ -58,8 +58,14 @@ For more details on building and signing `.ipa`, refer to the [iOS Packaging Gui
 
 ### macOS
 
+依存も含めて変更する必要がある場合は、以下のコマンドのように直接パラメータ指定すると良い。
+```bash
+uv run pyinstaller src/main.py --onedir --collect-all "ja_ginza" --collect-all "ginza" --collect-all "spacy" --collect-all "spacy_legacy" --add-data "src/assets/pochi-mat.icns:." -i=pochi-mat.icns --name=pochi-mat-mac
 ```
-flet build macos -v
+
+依存の変更等がない場合は、specファイルを起点にバンドルすると良い。
+```bash
+uv run pyinstaller pochi-mat-mac.spec
 ```
 
 For more details on building macOS package, refer to the [macOS Packaging Guide](https://flet.dev/docs/publish/macos/).
