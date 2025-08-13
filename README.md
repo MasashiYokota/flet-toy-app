@@ -1,87 +1,52 @@
-# FletToyApp app
+## Overview
 
-## Run the app
+Fletとspacy、ginzaの技術検証のために作ったPythonデスクトップアプリです。
+CSVを読み取り、カラムを選択すると、指定したカラムの人名やメールアドレス、電話番号をマスクします。
 
-### uv
+## Dependencies
+- [Task](https://taskfile.dev/) - 開発コマンド用のタスクランナー
+- [uv](https://github.com/astral-sh/uv) - Pythonパッケージ管理に必要
 
-Run as a desktop app:
+
+## セットアップ
+必要な依存のインストール
+```
+uv sync
+```
+
+## アプリの実行
+
+以下のコマンドを実行すると自動でアプリが立ち上がります。
 
 ```
 uv run flet run
 ```
 
-Run as a web app:
+## アプリのビルド
+アプリケーションのビルドは[pyinstaller](https://github.com/pyinstaller/pyinstaller)を利用します。
+pyinstallerではいくつかの方法がありますが、ここでは起動速度を重視し`--onedir`を採用しています。
 
-```
-uv run flet run --web
-```
-
-### Poetry
-
-Install dependencies from `pyproject.toml`:
-
-```
-poetry install
-```
-
-Run as a desktop app:
-
-```
-poetry run flet run
-```
-
-Run as a web app:
-
-```
-poetry run flet run --web
-```
-
-For more details on running the app, refer to the [Getting Started Guide](https://flet.dev/docs/getting-started/).
-
-## Build the app
-
-### Android
-
-```
-flet build apk -v
-```
-
-For more details on building and signing `.apk` or `.aab`, refer to the [Android Packaging Guide](https://flet.dev/docs/publish/android/).
-
-### iOS
-
-```
-flet build ipa -v
-```
-
-For more details on building and signing `.ipa`, refer to the [iOS Packaging Guide](https://flet.dev/docs/publish/ios/).
+以降の項目にて、各OSでのビルドコマンドを示します。ビルドが完了すると`dist`ディレクトリにアプリケーションが生成されます。
 
 ### macOS
 
 依存も含めて変更する必要がある場合は、以下のコマンドのように直接パラメータ指定すると良い。
 ```bash
-uv run pyinstaller src/main.py --onedir --collect-all "ja_ginza" --collect-all "ginza" --collect-all "spacy" --collect-all "spacy_legacy" --add-data "src/assets/pochi-mat.icns:." -i=pochi-mat.icns --name=pochi-mat-mac
+task full_mac_build
 ```
 
 依存の変更等がない場合は、specファイルを起点にバンドルすると良い。
 ```bash
-uv run pyinstaller pochi-mat-mac.spec
+task mac_build
 ```
-
-For more details on building macOS package, refer to the [macOS Packaging Guide](https://flet.dev/docs/publish/macos/).
-
-### Linux
-
-```
-flet build linux -v
-```
-
-For more details on building Linux package, refer to the [Linux Packaging Guide](https://flet.dev/docs/publish/linux/).
 
 ### Windows
 
-```
-flet build windows -v
+依存も含めて変更する必要がある場合は、以下のコマンドのように直接パラメータ指定すると良い。
+```bash
+task full_win_build
 ```
 
-For more details on building Windows package, refer to the [Windows Packaging Guide](https://flet.dev/docs/publish/windows/).
+依存の変更等がない場合は、specファイルを起点にバンドルすると良い。
+```bash
+task win_build
