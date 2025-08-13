@@ -3,3 +3,9 @@ version: "3"
 tasks:
   gen_requirements:
     cmd: uv pip compile pyproject.toml > requirements.txt
+
+  full_mac_build:
+    cmd: uv run pyinstaller src/main.py --onedir --collect-all "ja_ginza" --collect-all "ginza" --collect-all "spacy" --collect-all "spacy_legacy" --add-data "src/assets/pochi-mat.icns:." -i=pochi-mat.icns --name=pochi-mat-mac
+
+  mac_build:
+    cmd: uv run pyinstaller pochi-mat-mac.spec
