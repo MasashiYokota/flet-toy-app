@@ -17,6 +17,7 @@ tasks:
     cmd: uv run pyinstaller pochi-mas[win].spec
 
   check:all:
+    - task: format
     - task: ruff
     - task: pyright
     - task: test
@@ -26,6 +27,9 @@ tasks:
 
   pyright:
     cmd: uv run pyright
+
+  format:
+    cmd: uv run ruff format --check .
 
   ruff:
     cmd: uv run ruff check .

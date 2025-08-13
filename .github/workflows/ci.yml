@@ -1,0 +1,35 @@
+name: ci
+
+on:
+  push:
+    branches-ignore:
+      - develop
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: 3.12
+          enable-cache: true
+          cache-suffix: "aic-voice-ci-cache"
+
+      - name: Install Project
+        run: uv sync --all-extras --dev
+
+      - name: Format Check
+        run: uv run ruff format --check
+
+      - name: Linter Check
+        run: uv run ruff check
+
+      - name: Type Check
+        run: uv run pyright
+
+      - name: Run Tests
+        run: uv run pytest

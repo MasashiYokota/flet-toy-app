@@ -269,7 +269,6 @@ def main(page: ft.Page):
                 ],
                 spacing=10,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                scroll=True,
             )
 
             column_selection_container.visible = True
